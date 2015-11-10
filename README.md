@@ -48,7 +48,7 @@ class { 'hiera':
 The resulting output in /etc/puppet/hiera.yaml:
 ```yaml
 ---
-:backends: 
+:backends:
   - yaml
 :logger: console
 :hierarchy:
@@ -95,6 +95,48 @@ The resulting output in /etc/puppet/hiera.yaml:
 :yaml:
    :datadir: /etc/puppet/hieradata
 :merge_behavior: deep
+```
+
+**Configure with hirea-eyaml-gpg**
+```puppet
+class { 'hiera':
+  hierarchy => [
+    'nodes/%{::clientcert}',
+    'locations/%{::location}',
+    'environments/%{::applicationtier}',
+    'common',
+  ],
+  eyaml                => true,
+  eyaml_gpg            => true,
+  eyaml_gpg_keygen     => true,
+  eyaml_gpg_recipients => 'sihil@example.com,gtmtech@example.com,tpoulton@example.com',
+}
+```
+
+The resulting output in /etc/puppet/hiera.yaml:
+```yaml
+---
+:backends:
+  - eyaml
+  - yaml
+:logger: console
+:hierarchy:
+  - "nodes/%{::clientcert}"
+  - "locations/%{::location}"
+  - "environments/%{::applicationtier}"
+  - common
+
+:yaml:
+   :datadir: /etc/puppet/hieradata
+
+
+:eyaml:
+   :datadir: /etc/puppet/hieradata
+   :pkcs7_private_key: /etc/puppet/keys/private_key.pkcs7.pem
+   :pkcs7_public_key:  /etc/puppet/keys/public_key.pkcs7.pem
+   :encrypt_method: "gpg"
+   :gpg_gnupghome: "/etc/puppet/keys/gpg"
+   :gpg_recipients: "sihil@example.com,gtmtech@example.com,tpoulton@example.com"
 ```
 
 ### Classes
