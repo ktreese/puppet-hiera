@@ -19,6 +19,7 @@ class hiera::eyaml (
   $create_keys   = $hiera::create_keys,
   $eyaml_version = $hiera::eyaml_version,
   $gem_source    = $hiera::gem_source,
+  $eyaml_gpg     = $hiera::eyaml_gpg,
 ) inherits hiera::params {
 
   $package_ensure = $eyaml_version ? {

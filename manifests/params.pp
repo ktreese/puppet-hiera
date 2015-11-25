@@ -55,4 +55,8 @@ class hiera::params {
     $hiera_yaml = "${confdir}/hiera.yaml"
     $datadir    = "${confdir}/hieradata"
   }
+
+  if $::osfamily == 'RedHat' {
+    $gnupg_package = 'gnupg2'
+  }
 }

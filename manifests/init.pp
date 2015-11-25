@@ -39,26 +39,29 @@
 # Copyright (C) 2014 Terri Haber, unless otherwise noted.
 #
 class hiera (
-  $hierarchy       = [],
-  $backends        = ['yaml'],
-  $hiera_yaml      = $hiera::params::hiera_yaml,
-  $create_symlink  = true,
-  $datadir         = $hiera::params::datadir,
-  $datadir_manage  = true,
-  $owner           = $hiera::params::owner,
-  $group           = $hiera::params::group,
-  $eyaml           = false,
-  $eyaml_datadir   = undef,
-  $eyaml_extension = undef,
-  $confdir         = $hiera::params::confdir,
-  $logger          = 'console',
-  $cmdpath         = $hiera::params::cmdpath,
-  $create_keys     = true,
-  $gem_source      = undef,
-  $eyaml_version   = undef,
-  $merge_behavior  = undef,
-  $extra_config    = '',
-  $master_service  = $hiera::params::master_service,
+  $hierarchy            = [],
+  $backends             = ['yaml'],
+  $hiera_yaml           = $hiera::params::hiera_yaml,
+  $create_symlink       = true,
+  $datadir              = $hiera::params::datadir,
+  $datadir_manage       = true,
+  $owner                = $hiera::params::owner,
+  $group                = $hiera::params::group,
+  $eyaml                = false,
+  $eyaml_datadir        = undef,
+  $eyaml_extension      = undef,
+  $confdir              = $hiera::params::confdir,
+  $logger               = 'console',
+  $cmdpath              = $hiera::params::cmdpath,
+  $create_keys          = true,
+  $gem_source           = undef,
+  $eyaml_version        = undef,
+  $merge_behavior       = undef,
+  $extra_config         = '',
+  $eyaml_gpg            = false,
+  $eyaml_gpg_keygen     = false,
+  $eyaml_gpg_recipients = undef,
+  $master_service       = $hiera::params::master_service,
 ) inherits hiera::params {
   File {
     owner => $owner,
@@ -75,7 +78,9 @@ class hiera (
       fail("${merge_behavior} merge behavior is invalid. Valid values are: native, deep, deeper")
     }
   }
-  if $eyaml {
+  if $eyaml_gpg {
+    require hiera::eyaml_gpg
+  } elsif $eyaml {
     require hiera::eyaml
     $eyaml_real_datadir = empty($eyaml_datadir) ? {
       false => $eyaml_datadir,
