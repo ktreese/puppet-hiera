@@ -23,7 +23,7 @@ class hiera::params {
     $cmdpath    = ['/opt/puppet/bin', '/usr/bin', '/usr/local/bin']
 
     if versioncmp($::pe_version, '3.7.0') >= 0 {
-      $provider       = 'pe_puppetserver_gem'
+      $provider       = 'puppetserver_gem'
       $master_service = 'pe-puppetserver'
     } else {
       $provider       = 'pe_gem'
