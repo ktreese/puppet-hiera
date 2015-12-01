@@ -20,7 +20,8 @@ class hiera::params {
     $owner      = 'pe-puppet'
     $group      = 'pe-puppet'
     $confdir    = '/etc/puppetlabs/puppet'
-    $cmdpath    = ['/opt/puppet/bin', '/usr/bin', '/usr/local/bin']
+    $cmdpath    = [ '/opt/puppetlabs/server/bin', '/opt/puppetlabs/puppet/bin', '/opt/puppet/bin', '/usr/bin', '/bin', ]
+
 
     if (versioncmp($::pe_version, '3.7.0') >= 0) or (versioncmp($::pe_build, '2015.2') >= 0)  {
       $provider       = 'puppetserver_gem'
