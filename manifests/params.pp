@@ -14,7 +14,7 @@
 # Copyright (C) 2013 Mike Arnold, unless otherwise noted.
 #
 class hiera::params {
-  if str2bool($::is_pe) {
+  if ($::pe_server_version) or (str2bool($::is_pe)) {
     $hiera_yaml = '/etc/puppetlabs/puppet/hiera.yaml'
     $datadir    = '/etc/puppetlabs/puppet/hieradata'
     $owner      = 'pe-puppet'
@@ -22,7 +22,7 @@ class hiera::params {
     $confdir    = '/etc/puppetlabs/puppet'
     $cmdpath    = ['/opt/puppet/bin', '/usr/bin', '/usr/local/bin']
 
-    if versioncmp($::pe_version, '3.7.0') >= 0 {
+    if (versioncmp($::pe_version, '3.7.0') >= 0) or (versioncmp($::pe_build, '2015.2') >= 0)  {
       $provider       = 'puppetserver_gem'
       $master_service = 'pe-puppetserver'
     } else {
